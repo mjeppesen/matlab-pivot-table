@@ -27,6 +27,59 @@ If you have a table in Matlab:
 
 The you can make a pivot table with:
 
-        p = pivot_table(x, 'Name', 'Value', @sum);
+        >> pivot_table(x, 'Name', 'Value', @sum)
+
+
+        ans =
+
+            Name     sum_of_Value
+            _____    ____________
+
+            'bar'    2
+            'foo'    3
+
+The format is:
+
+        p = pivot_table(t, aggregate_by, data, function_handle, varargin)
+
+where:
+ - `t` is a Matlab table containing the data you wish to turn into a pivot table
+
+ - `aggregate_by` is the name of column in `t` you wish to use to aggregate the data (or a cell array of the columns names, if you wish to aggregate by more than one column).
+
+ - `data` is the name of the column in `t` containing the data you wish to analyse (or a cell array of the column names, if you wish to analyse more than one column).
+
+ - `function_handle` is a handle to the function you wish to use to analyse the data (e.g. @sum, @mean, @max etc.)
+
+## More examples
+
+1. Aggregation by more than one column:
+
+        >> x = table(...
+        >>     {'foo'; 'bar'; 'foo'; 'foo'}, ...
+        >>     {'a'; 'b'; 'c'; 'a'}, ...
+        >>     [-1; 2; 4; 7], ...
+        >>     'VariableNames', {'Name', 'Letter', 'Value'});
+
+        x =
+
+            Name     Letter    Value
+            _____    ______    _____
+
+            'foo'    'a'       -1
+            'bar'    'b'        2
+            'foo'    'c'        4
+            'foo'    'a'        7
+
+        >> pivot_table(x, {'Name', 'Letter'}, 'Value', @sum)
+
+        p =
+
+            Name     Letter    sum_of_Value
+            _____    ______    ____________
+
+            'bar'    'b'       2
+            'foo'    'a'       6
+            'foo'    'c'       4
 
 
