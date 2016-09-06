@@ -61,7 +61,7 @@ Download the repository, place it somewhere on your computer, and add the direct
 
 ## More examples
 
-1. Aggregation by more than one column. First, create a table:
+### Aggregation by more than one column. First, create a table:
 
         >> x = table(...
             {'foo'; 'bar'; 'foo'; 'foo'}, ...
@@ -93,7 +93,8 @@ Then create the pivot table:
             'foo'    'c'       4
 
 
-2. Analyse data from more than one column. First, create a table:
+## Analyse data from more than one column.
+First, create a table:
 
         >> x = table(...
             {'foo'; 'bar'; 'foo'}, ...
