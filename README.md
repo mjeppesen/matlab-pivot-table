@@ -12,9 +12,9 @@ Other pivot table functions exist on the Matlab File Exchange, such as [pivottab
 If you have a table in Matlab:
 
         >> x = table(...
-        >>         {'foo'; 'bar'; 'foo'}, ...
-        >>         [-1; 2; 4], ...
-        >>         'VariableNames', {'Name', 'Value'});
+                 {'foo'; 'bar'; 'foo'}, ...
+                 [-1; 2; 4], ...
+                 'VariableNames', {'Name', 'Value'});
 
         x =
 
@@ -25,7 +25,9 @@ If you have a table in Matlab:
             'bar'     2
             'foo'     4
 
-The you can make a pivot table with:
+(*NOTE*: >> above means the Matlab prompt, i.e. you should type or copy & paste what comes after the >> into the prompt.)
+
+Then you can make a pivot table with:
 
         >> pivot_table(x, 'Name', 'Value', @sum)
 
@@ -51,15 +53,20 @@ where:
 
  - `function_handle` is a handle to the function you wish to use to analyse the data (e.g. @sum, @mean, @max etc.)
 
+## Installation
+
+Download the repository, place it somewhere on your computer, and add the directory which contains `pivot_table.m` to the Matlab path. E.g.:
+
+        >> addpath('C:\Users\foo\Documents\matlab-pivot-table');
+
 ## More examples
 
-1. Aggregation by more than one column:
-
+1. Aggregation by more than one column. First, create a table:
         >> x = table(...
-        >>     {'foo'; 'bar'; 'foo'; 'foo'}, ...
-        >>     {'a'; 'b'; 'c'; 'a'}, ...
-        >>     [-1; 2; 4; 7], ...
-        >>     'VariableNames', {'Name', 'Letter', 'Value'});
+            {'foo'; 'bar'; 'foo'; 'foo'}, ...
+            {'a'; 'b'; 'c'; 'a'}, ...
+            [-1; 2; 4; 7], ...
+            'VariableNames', {'Name', 'Letter', 'Value'});
 
         x =
 
@@ -71,6 +78,8 @@ where:
             'foo'    'c'        4
             'foo'    'a'        7
 
+Then create the pivot table:
+
         >> pivot_table(x, {'Name', 'Letter'}, 'Value', @sum)
 
         p =
@@ -81,5 +90,50 @@ where:
             'bar'    'b'       2
             'foo'    'a'       6
             'foo'    'c'       4
+
+
+2. Analyse data from more than one column. First, create a table:
+
+        >> x = table(...
+            {'foo'; 'bar'; 'foo'}, ...
+            [-1; 2; 4], ...
+            [1; 1; 1], ...
+            'VariableNames', {'Name', 'value_1', 'value_2'});
+
+        x =
+
+            Name     value_1    value_2
+            _____    _______    _______
+
+            'foo'    -1         1
+            'bar'     2         1
+            'foo'     4         1
+
+Then, create the pivot table:
+        >> p = pivot_table(x, 'Name', {'value_2', 'value_1'}, @sum)
+
+        p =
+
+            Name     sum_of_value_2    sum_of_value_1
+            _____    ______________    ______________
+
+            'bar'    1                 2
+            'foo'    2                 3
+
+## Tests
+
+`pivot_table.m` comes with a unit testing suite `test_pivot_table.m`. You can use this to verify that the code works on your machine by running `runtests` in Matlab, from inside the directory which contains test_pivot_table.m
+
+
+## License
+Licensed under the MIT license:
+
+    Copyright (c) 2016 Matthew Jeppesen
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
